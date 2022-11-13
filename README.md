@@ -4,6 +4,11 @@ AWS Lambdas in Java [should be packaged as an Uber JAR](https://docs.aws.amazon.
 
 The [`maven-shade-plugin`](https://maven.apache.org/plugins/maven-shade-plugin) is used to build the Uber JAR. While configuring it in the `pom.xml` is the recommended way to use it, here we execute it from the command line so the `pom.xml` doesn't have to be edited.
 
+## Inputs/Outputs
+
+- The input `working-directory` is optional and indicates where is the root directory of your Lambda function.
+- The output `deployment-file` is an absolute path to the JAR that should be deployed (see the example below).
+
 ## Example workflow
 
 This GitHub Actions workflow shows how to deploy an AWS Lambda [using the `UpdateFunctionCode` API](https://docs.aws.amazon.com/lambda/latest/dg/API_UpdateFunctionCode.html) with the `aws` CLI:
