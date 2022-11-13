@@ -1,5 +1,7 @@
 # Package an AWS Lambda in Java
 
+A GitHub Action to package an AWS Lambda in Java with Maven.
+
 AWS Lambdas in Java [should be packaged as an Uber JAR](https://docs.aws.amazon.com/lambda/latest/dg/java-package.html#java-package-maven).
 
 The [`maven-shade-plugin`](https://maven.apache.org/plugins/maven-shade-plugin) is used to build the Uber JAR. While configuring it in the `pom.xml` is the recommended way to use it, here we execute it from the command line so the `pom.xml` doesn't have to be edited.
@@ -25,7 +27,7 @@ jobs:
   deploy-aws-lambda:
     runs-on: ubuntu-latest
     permissions:
-      # This is required for requesting the GitHub's OIDC Token
+      # This is required for requesting GitHub's OIDC Token
       # See https://github.com/aws-actions/configure-aws-credentials
       id-token: write
     env:
@@ -33,7 +35,11 @@ jobs:
       FUNCTION_NAME: name-of-function
     steps:
       - uses: actions/checkout@v3
-      - uses: axel-op/package-aws-lambda-java@main
+      - uses: actions/setup-java@v2
+        with:
+          java-version: 11
+          distribution: adopt
+      - uses: axel-op/package-java-aws-lambda@main
         id: package
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
